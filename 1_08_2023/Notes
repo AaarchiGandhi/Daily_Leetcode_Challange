@@ -1,0 +1,41 @@
+// https://leetcode.com/problems/combinations/description/
+// Question
+
+/* Question:  Given two integers n and k, return all possible combinations of k numbers chosen from the 
+                range [1, n].
+                You may return the answer in any order. */
+
+/* Input: n = 4, k = 2
+    Output: [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
+    Explanation: There are 4 choose 2 = 6 total combinations.
+    Note that combinations are unordered, i.e., [1,2] and [2,1] are considered to be the same combination.
+
+*/
+
+public List<List<Integer>> combine(int n, int k) {
+    List<List<Integer>> result = new ArrayList<>();            //used to store the result (all the possible combonations)
+    List<Integer> combinations = new ArrayList<>();            //use to store the combinations or we can say that subset
+    
+    solveitforMe(1,n,k,combinations,result);                   //Actual recursive logic
+    
+    return result;                
+}
+
+private void solveitforMe(int num, int n, int k, List<Integer> combinations, List<List<Integer>> result){
+    
+    if(num>n+1)                                         //OUR BASE CONDITION...if num is greater than the given n+1 then return (No more recusrive calls)
+        return;
+    
+    if(combinations.size() == k){                       //ANOTHER BASE CONDITION... if temp list size i=is equals to the given k, then it means we one of our combinations
+        // System.out.println(combinations);
+        result.add(new ArrayList(combinations));        //Add that combination into the result list and return
+        return;
+    }
+    
+    combinations.add(num);                              //Add(TAKE) that number (we two choose TAKE & DON'T TAKE)
+    solveitforMe(num+1,n,k,combinations,result);        //Do the recursive call further
+    
+    combinations.remove(combinations.size()-1);         //DON'T TAKE that number
+    solveitforMe(num+1,n,k,combinations,result);        // & Do the recursive call further
+    
+}
